@@ -1,6 +1,6 @@
 {
     "name": "H2O web server / SSL proxy",
-    "version": "1.1",
+    "version": "1.2",
     "slug": "h2o",
     "url": "https://gitlab.com/mailaender.it/home-assistant/h2o",
     "description": "A modern high-performance web server",
@@ -19,7 +19,7 @@
     },
     "map": [
         "config",
-	"share",
+		"share",
         "ssl:rw"
     ],
     "options": {
@@ -28,9 +28,10 @@
         "private_key": "/ssl/privkey.pem",
         "dhparams": "/ssl/dhparams.pem",
         "hsts": "max-age=15552000; includeSubDomains; preload",
+		"forward_acme": "letsencrypt", 
         "custom_config": {
-            "enabled": false,
-            "file": "/config/h2o.conf"
+            "enable": false,
+            "file": "/config/h2o/h2o.conf"
         }
     },
     "schema": {
@@ -39,8 +40,9 @@
         "private_key": "str",
         "dhparams": "str",
         "hsts": "str",
+		"forward_acme": "str",
         "custom_config": {
-            "enabled": "bool",
+            "enable": "bool",
             "file": "str"
         }
     }

@@ -17,7 +17,7 @@ A common scenario is to use H2O as secure SSL/TLS proxy for your Home Assistant 
 
 If you need both, please install the [DuckDNS Add-on](https://github.com/home-assistant/hassio-addons/blob/master/duckdns/) first and follow the instructions. To obtain a certificate only, [Let's Encrypt Add-on](https://github.com/home-assistant/hassio-addons/tree/master/letsencrypt) will guide you.
 
-Of course, you can also use H2O with a custom configuration file to serve more than just Home Assistant. To do so, set **custom_config.enabled** -> **true**, create `/config/h2o.conf` (or any other file specified by **custom_config.file**) and follow the [official documentation](https://h2o.examp1e.net/configure.html).
+Of course, you can also use H2O with a custom configuration file to serve more than just Home Assistant. To do so, set **custom_config.enable** -> **true**, create `/config/h2o/h2o.conf` (or any other file specified by **custom_config.file**) and follow the [official documentation](https://h2o.examp1e.net/configure.html).
 
 The configuration provided by this add-on was rated A+ by [SSL Labs Server Test](https://www.ssllabs.com/ssltest/).
 
@@ -59,6 +59,8 @@ Filename of the custom H2O configuration (default: `/config/h2o.conf`).
 
 ## Port fowarding
 Automatic forwarding of insecure requests to HTTPS, e.g. http://home.example.com to https://home.example.com, can be enabled by entering port 80 under **Network** -> **Host** -> **80/tcp**.
+
+Please make sure that port 80 is not enabled for Let's Encrypt or DuckDNS and set **forward_acme** = `letsencrypt` or `duckdns` instead. 
 
 ## Support
 If you got any questions or problems, feel free to open an issue on [GitLab](https://gitlab.com/mailaender.it/home-assistant) or just drop me a mail to david@mailaender.it.

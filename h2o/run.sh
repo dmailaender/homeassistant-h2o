@@ -6,8 +6,9 @@ PRIVATE_KEY=$(bashio::config 'private_key')
 DHPARAMS=$(bashio::config 'dhparams')
 CUST_CONFIG=$(bashio::config 'custom_config.file')
 HSTS=$(bashio::config 'hsts')
+ACME=$(bashio::config 'forward_acme')
 
-# generate dh params
+# generate dh params?
 if ! bashio::fs.file_exists "$DHPARAMS"; then
     bashio::log.info  "Generating dhparams, this may take a long time..."
     openssl dhparam -dsaparam -out "$DHPARAMS" 4096 > /dev/null
@@ -17,12 +18,14 @@ fi
 echo "" > /var/www/index.html
 
 # use default config
-if bashio::config.false 'custom_config.enabled'; then	
+if bashio::config.false 'custom_config.enable'; then	
+
 	sed -i "s~%%DOMAIN%%~$DOMAIN~; \
 			s~%%CERTIFICATE%%~$CERTIFICATE~; \
 			s~%%PRIVATE_KEY%%~$PRIVATE_KEY~; \
 			s~%%DHPARAMS%%~$DHPARAMS~; \
-			s~%%HSTS%%~header.add: \"strict-transport-security: $HSTS\"~" /etc/h2o.conf
+			s~%%HSTS%%~header.add: \"strict-transport-security: $HSTS\"~; \
+			s~%%ACME%%~\"/.well-known/acme-challenge\":\n         proxy.reverse.url: \"http://core-$ACME\"~g" /etc/h2o.conf
     h2o -c /etc/h2o.conf
 else
     bashio::log.info "Using custom configuration $CUST_CONFIG"
